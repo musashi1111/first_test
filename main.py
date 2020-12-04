@@ -74,20 +74,31 @@ def callback():
 
 
 @handler.add(MessageEvent, message=TextMessage)
-def handle_message(event):
+def handle_text_message(event):
     lo, la = get_coordinates(event.message.text)
     a, b = locate(float(lo), float(la))
 
     massage = "{}\n「{}」\n{}\n「{}」\n".format(
         "現在地から最短の避難所は",
         a,
-        "住所は",
+        "避難所の住所は",
         b
     )
 
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=massage))
+
+
+@handler.add(MessageEvent, message=LocationMessage)
+def handle_location(event):
+    line_bot_api.reply_message(
+        event.reply_token,
+        [
+            TextSendMessage(text="{}\n{}\n{}".format(
+                event.message.address, event.message.latitude, event.message.longitude)),
+        ]
+    )
 
 
 if __name__ == "__main__":

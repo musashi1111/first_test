@@ -78,13 +78,16 @@ def handle_message(event):
     lo, la = get_coordinates(event.message.text)
     a, b = locate(float(lo), float(la))
 
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text="現在位置から最短の避難所の場所は、" + a))
+    massage = "{}\n「{}」\n{}\n「{}」\n".format(
+        "現在地から最短の避難所は",
+        a,
+        "住所は",
+        b
+    )
 
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text="住所は" + b))
+        TextSendMessage(text=massage))
 
 
 if __name__ == "__main__":
